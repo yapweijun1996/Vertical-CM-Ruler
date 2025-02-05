@@ -135,7 +135,8 @@
             tick.classList.add("major");
             var label = document.createElement("div");
             label.classList.add("label");
-            label.textContent = i / 10;
+            //label.textContent = i / 10;
+            label.textContent = totalCm - (i / 10); 
             tick.appendChild(label);
           } else {
             tick.classList.add("minor");
