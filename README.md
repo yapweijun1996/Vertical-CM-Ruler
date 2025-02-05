@@ -19,3 +19,4 @@ A vertical centimeter ruler built with HTML, CSS, and JavaScript. This project d
 
 
 ## Demo
+https://yapweijun1996.github.io/Vertical-CM-Ruler/
