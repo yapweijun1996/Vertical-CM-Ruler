@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,34 +5,35 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
     />
-    <title>Vertical CM Ruler - Left Aligned</title>
+    <title>Vertical CM Ruler</title>
     <style>
-      /* Basic resets */
+      /* Reset all margins and paddings */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
       * {
         box-sizing: border-box;
       }
       body {
-        margin: 0;
         font-family: Arial, sans-serif;
         background: #f3f3f3;
-        padding: 1em;
       }
-      /* Fixed left container for the vertical ruler */
+      /* Flex container for side ruler and main content */
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+      /* Left fixed column for the vertical ruler */
       #ruler-container {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
         width: 3cm;
-        overflow-y: auto;
         background: #fff;
         border-right: 1px solid #ccc;
-        padding: 0;
       }
-      /* Vertical ruler styling */
       #ruler {
         position: relative;
-        /* Height is set dynamically in JavaScript */
+        /* height will update dynamically */
       }
       /* Tick marks */
       .tick {
@@ -56,9 +56,9 @@
         font-size: 0.3cm;
         color: black;
       }
-      /* Main content area shifted to the right of the ruler */
+      /* Main content area */
       #content {
-        margin-left: calc(3cm + 1em);
+        flex: 1;
         padding: 1em;
       }
       h1 {
@@ -72,8 +72,8 @@
         max-width: 90%;
       }
       #controls {
-        margin-bottom: 1em;
         text-align: center;
+        margin-bottom: 1em;
       }
       #controls input[type="number"],
       #controls button {
@@ -94,38 +94,38 @@
           font-size: 0.9em;
           padding: 6px 8px;
         }
-        #content {
-          margin-left: calc(3cm + 1em);
-        }
       }
     </style>
   </head>
   <body>
-    <div id="ruler-container">
-      <div id="ruler"></div>
-    </div>
-    <div id="content">
-      <h1>Vertical CM Ruler</h1>
-      <div class="instructions">
-        <p>
-          This ruler displays its length vertically in actual centimeters.
-          Ensure your browser is at 100% zoom for accurate measurement.
-        </p>
+    <div class="container">
+      <div id="ruler-container">
+        <div id="ruler"></div>
       </div>
-      <div id="orientation-warning" class="orientation-warning"></div>
-      <div id="controls">
-        <label for="lengthInput">Ruler Length (cm): </label>
-        <input type="number" id="lengthInput" value="30" min="1" />
-        <button id="updateButton">Update Ruler</button>
+      <div id="content">
+        <h1>Vertical CM Ruler</h1>
+        <div class="instructions">
+          <p>
+            This ruler displays its length vertically in actual centimeters.
+            Ensure your browser is at 100% zoom for accurate measurement.
+          </p>
+        </div>
+        <div id="orientation-warning" class="orientation-warning"></div>
+        <div id="controls">
+          <label for="lengthInput">Ruler Length (cm): </label>
+          <input type="number" id="lengthInput" value="30" min="1" />
+          <button id="updateButton">Update Ruler</button>
+        </div>
       </div>
     </div>
+
     <script>
       // Generates the vertical ruler with tick marks for each mm and cm.
       function generateRuler() {
         var totalCm = parseInt(document.getElementById("lengthInput").value) || 30;
         var ruler = document.getElementById("ruler");
         ruler.innerHTML = "";
-        // Set the dynamic height (real scale when 1cm = 1cm on screen)
+        // Set dynamic height where 1cm on screen = 1cm
         ruler.style.height = totalCm + "cm";
         var totalTicks = totalCm * 10;
         for (var i = 0; i <= totalTicks; i++) {
@@ -144,7 +144,7 @@
           ruler.appendChild(tick);
         }
       }
-      // Checks the orientation of the device and displays a warning if needed.
+      // Checks device orientation to display a warning if in landscape.
       function checkOrientation() {
         var warning = document.getElementById("orientation-warning");
         if (window.innerWidth > window.innerHeight) {
